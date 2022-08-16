@@ -21,13 +21,12 @@ createCurvePoints points =
     createCurve = flip map [0, 1 / 1000..1] . createPoint
 
 
-createCurveVertices :: [(Float, Float)] -> [Vertex3 Float]
-createCurveVertices points = zipWith createVertex x' y'
+createCurveVertices :: [(Float, Float)] -> [Vertex2 Float]
+createCurveVertices points = zipWith Vertex2 x' y'
   where 
     (x, y) = unzip points
     x' = createCurvePoints x
     y' = createCurvePoints y
-    createVertex x y = Vertex3 x y 0
 
 
 generateRandomInput :: IO [(Float, Float)]
@@ -61,7 +60,7 @@ main = do
   displayCallback $= (display vertices)
   mainLoop
 
-display :: [Vertex3 Float] -> DisplayCallback
+display :: [Vertex2 Float] -> DisplayCallback
 display vertices = do 
   clear [ColorBuffer]
   renderPrimitive Points $ mapM_ vertex vertices
