@@ -3,14 +3,6 @@ import Graphics.UI.GLUT
 import System.Random  
 
 
--- myPoints :: [(GLfloat,GLfloat,GLfloat)]
--- myPointsX = [ -0.8, -0.2, -0.4, 0.3, 0.8 ]
--- myPointsY = [ 0.8, -0.4, 0.9, 0.7, 0.5 ]
-
-myPointsX = map ((subtract 1) . (2*)) [0.057620374653786, 0.15205970107439015, 0.5340820989492587, 0.5770928331542042, 0.25906285457742695, 0.08817991973941897, 0.41895571880020166, 0.16954369735990038]
-myPointsY = map ((subtract 1) . (2*)) [0.6088092386417162, 0.9386682279120688, 0.727328484136289, 0.11353366158502609, 0.4129862685725345, 0.1605336905018283, 0.1448934803792601, 0.27571229269161224]
-
-
 createCurvePoints :: [Float] -> [Float]
 createCurvePoints points =
   concat $ map (createCurve . createCurveOps . createCoefs) ppairs
@@ -49,14 +41,15 @@ generateRandomInput = do
   return $ generatePoints gen
 
 
--- readFileInput :: IO [(Float, Float)]
--- readFileInput = do
-
+readFileInput :: String -> IO [(Float, Float)]
+readFileInput filename = do
+  contents <- readFile filename
+  return $ read contents
 
 
 getInput :: [String] -> IO [(Float, Float)]
 getInput [] = generateRandomInput
--- getInput [filename] = 
+getInput [filename] = readFileInput filename
 
 
 main :: IO ()
